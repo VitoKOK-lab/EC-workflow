@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電商部組織架構 × 職責 × KPI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F172A; --navy-2:#1E293B; --slate:#475569; --slate-2:#64748B; --slate-3:#94A3B8;
+  --bg:#F1F5F9; --surface:#FFFFFF; --surface-2:#F8FAFC; --line:#E5EAF1; --line-2:#CBD5E1;
+  --teal:#0ABAB5; --teal-bg:#E2F7F5; --teal-line:#A4E6E1;
+  --amber:#BF9B30; --amber-bg:#FBF4DB;
+  --indigo:#BE123C; --indigo-bg:#FCE7EB;
+  --r:16px; --r-sm:11px;
+  --shadow:0 1px 2px rgba(15,23,42,.04), 0 6px 16px rgba(15,23,42,.06);
+  --shadow-h:0 3px 8px rgba(15,23,42,.07), 0 14px 30px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:var(--bg);color:var(--navy);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;padding:34px 18px 70px}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,.ctitle,.lead .name,.dept-nm,.shopline,.hero .ht{font-family:'Lexend','Noto Sans TC',sans-serif}
+
+.hdr{margin-bottom:24px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+h1{font-size:30px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:16px;font-size:13px;color:var(--slate)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:1px 8px;border-radius:6px;line-height:1.6;vertical-align:middle}
+.pill.cn{background:var(--amber-bg);color:var(--amber)}
+.pill.prog{background:var(--indigo-bg);color:var(--indigo)}
+.mut{color:var(--slate-3);font-size:12.5px}
+
+.lead{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
+.lead .card{background:var(--navy);color:#fff;border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow)}
+.lead .role{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-3);margin-bottom:7px}
+.lead .name{font-size:23px;font-weight:700}
+.lead .desc{font-size:13.5px;color:#CBD5E1;margin-top:9px;line-height:1.7}
+
+.sec{display:flex;align-items:center;gap:12px;margin:32px 0 16px}
+.sec h2{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate-2)}
+.sec .rule{flex:1;height:1px;background:var(--line)}
+
+.dept{background:#E9EFF7;border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.dept-head{display:flex;align-items:center;gap:12px;padding:4px 6px 14px}
+.dept-nm{font-size:19px;font-weight:700}
+.dept-tag{font-size:13px;color:var(--slate)}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start}
+.subcols{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.subcols>div{padding:0 18px;border-left:1px solid var(--line)}
+.subcols>div:first-child{padding-left:0;border-left:none}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.card:hover{box-shadow:var(--shadow-h);transform:translateY(-2px)}
+.card .pad{padding:18px 20px}
+.ctitle{display:flex;align-items:center;gap:10px;font-size:16.5px;font-weight:600;margin-bottom:14px}
+.ctitle .bar{width:5px;height:18px;border-radius:3px}
+.t-teal .bar{background:var(--teal)} .t-amber .bar{background:var(--amber)}
+.t-indigo .bar{background:var(--indigo)} .t-slate .bar{background:var(--slate-3)}
+.ctitle .nm{flex:0 0 auto}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;margin-left:auto}
+.badge.test-b{background:var(--indigo-bg);color:var(--indigo)}
+
+.grp{font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-3);margin:0 0 8px}
+.r{font-size:14.5px;line-height:2;color:var(--navy-2)}
+.r .k{display:inline-block;min-width:5.2em;color:var(--slate-2);font-size:13px;margin-right:8px}
+.r .v{font-weight:500;color:var(--navy)}
+.card.dashed{border-style:dashed;border-color:var(--line-2)}
+
+/* KPI 總表 */
+.ktable{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.kdept{padding:9px 22px;background:#EEF2F8;font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--navy-2);border-top:2px solid var(--line)}
+.kdept:first-child{border-top:none}
+.krow{display:grid;grid-template-columns:8em 1fr;gap:16px;padding:10px 22px;border-top:1px solid var(--line);font-size:14px;align-items:baseline}
+.krow .kp{color:var(--slate-2);font-weight:600;font-size:13px}
+.krow .kv{color:var(--navy);font-weight:500}
+.krow .kv .sep{color:var(--line-2);margin:0 6px;font-weight:400}
+.krow .kv em{font-style:normal;color:var(--slate-3);font-weight:400}
+
+/* flow */
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}
+.flow .lead-note{font-size:14px;color:var(--slate);margin-bottom:18px;line-height:1.6;text-align:center}
+.hero{background:var(--amber-bg);border:2px solid var(--amber);border-radius:var(--r-sm);padding:18px;text-align:center;max-width:420px;margin:0 auto}
+.hero .ht{font-size:19px;font-weight:700;color:var(--amber)}
+.hero .hs{font-size:13px;color:var(--slate);margin-top:4px}
+.sub-fronts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.sub-front{border:1px solid var(--line);border-radius:var(--r-sm);padding:14px;background:var(--surface-2);text-align:center}
+.sub-front .fn{font-size:14.5px;font-weight:600}
+.sub-front .fd{font-size:12px;color:var(--slate);margin-top:4px}
+.converge{display:flex;justify-content:center;margin:10px 0}
+.shopline{background:var(--navy);color:#fff;border-radius:var(--r-sm);padding:15px;text-align:center;font-weight:600;font-size:16px;letter-spacing:.02em}
+.backend{margin-top:8px;border:1px solid var(--teal-line);border-radius:var(--r-sm);background:var(--teal-bg);padding:18px}
+.backend .bh{font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;text-align:center}
+.steps{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px}
+.step{background:#fff;border:1px solid var(--teal-line);border-radius:8px;padding:9px 14px;font-size:14px;font-weight:500;color:var(--navy);text-align:center}
+.step .sd{display:block;color:var(--slate-2);font-weight:400;font-size:11.5px;margin-top:2px}
+.arrow{color:var(--teal);font-weight:700;font-size:16px}
+
+.principle{background:var(--navy);color:#E2E8F0;border-radius:var(--r);padding:22px 26px;margin-top:14px;font-size:14.5px;line-height:1.9}
+.principle b{color:#fff;font-weight:600}
+.principle .k{color:#7DE3DD;font-weight:600}
+.wtable{margin-top:4px}
+.wrow{display:grid;grid-template-columns:13em 1fr 3.2em;align-items:center;gap:14px;padding:9px 2px;border-top:1px solid var(--line)}
+.wrow:first-child{border-top:none}
+.wl .wn{font-size:14px;font-weight:600;color:var(--navy)}
+.wl .wp{font-size:11.5px;color:var(--slate-3);margin-top:2px}
+.wbar{height:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.wbar i{display:block;height:100%;background:linear-gradient(90deg,#0D9488,#2DD4BF);border-radius:7px;transition:width .6s ease}
+.wv{font-size:14px;font-weight:700;color:var(--teal);text-align:right}
+.chain{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.cnode{flex:1 1 160px;min-width:150px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);padding:14px 16px}
+.cnode.trig{background:#fff;border-style:dashed;border-color:var(--line-2)}
+.cnode .co{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--slate-3);margin-bottom:6px}
+.cnode .ct{font-size:14.5px;font-weight:600;color:var(--navy);line-height:1.45}
+.carrow{display:flex;align-items:center;color:var(--slate-3);font-weight:700;font-size:18px}
+.heatgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.htile{border-radius:12px;padding:13px 14px 12px;min-height:98px;display:flex;flex-direction:column;border:1px solid rgba(15,23,42,.05)}
+.htile .hn{font-size:13px;font-weight:600;line-height:1.3}
+.htile .hv{font-size:25px;font-weight:700;font-family:'Lexend','Noto Sans TC',sans-serif;margin-top:auto;line-height:1}
+.htile .hp{font-size:10.5px;opacity:.72;margin-top:6px;line-height:1.35}
+.heatlegend{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:11.5px;color:var(--slate-2)}
+.heatlegend i{flex:0 1 200px;height:8px;border-radius:4px;background:linear-gradient(90deg,rgba(10,186,181,.16),rgba(10,186,181,1))}
+
+@media(max-width:820px){
+  body{padding:22px 14px 50px} h1{font-size:25px}
+  .lead,.grid2,.grid3,.sub-fronts{grid-template-columns:1fr}
+  .subcols{grid-template-columns:1fr}
+  .subcols>div{padding:0;border-left:none;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+  .subcols>div:first-child{border-top:none;padding-top:0;margin-top:0}
+  .krow{grid-template-columns:1fr;gap:2px;padding:10px 18px}
+  .steps{flex-direction:column;align-items:stretch}
+  .arrow{align-self:center;transform:rotate(90deg)}
+  .wrow{grid-template-columns:1fr 2.8em;grid-template-areas:"l l" "b v";gap:5px 10px}
+  .wl{grid-area:l}.wbar{grid-area:b}.wv{grid-area:v}
+  .chain{flex-direction:column}
+  .carrow{transform:rotate(90deg);align-self:center}
+  .heatgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{body{background:#fff;padding:0}.card,.flow,.dept,.ktable{box-shadow:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hdr">
+    <div class="eyebrow">泰熙爾札娜 · TZG</div>
+    <h1>電商部組織架構 × 職責 × KPI</h1>
+    <div class="legend">
+      <span><span class="pill cn">陸</span>大陸同仁</span>
+      <span>＊ 借調 · 跨組支援</span>
+      <span><span class="pill prog">進行中</span>規劃／招募中</span>
+    </div>
+  </header>
+
+  <div class="sec"><h2>工作流 · 匯流模型</h2><div class="rule"></div></div>
+  <div class="flow">
+    <p class="lead-note">主線短影音是主要增長引擎；四條入口共用同一套後端。</p>
+    <div class="hero">
+      <div class="ht">主線 · 短影音</div>
+      <div class="hs">主要增長引擎</div>
+    </div>
+    <div class="sub-fronts">
+      <div class="sub-front"><div class="fn">業務 · 代理</div><div class="fd">代理自主銷售</div></div>
+      <div class="sub-front"><div class="fn">LINE OA</div><div class="fd">會員復購</div></div>
+      <div class="sub-front"><div class="fn">海外</div><div class="fd">在地化拓展</div></div>
+    </div>
+    <div class="converge">
+      <svg width="26" height="22" viewBox="0 0 26 22" aria-hidden="true"><path d="M13 2 L13 18 M6 12 L13 19 L20 12" fill="none" stroke="#0ABAB5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="shopline">Shopline 官網 · 下單</div>
+    <div class="backend">
+      <div class="bh">共用後端 · 所有路線匯流</div>
+      <div class="steps">
+        <span class="step">銷售客服<span class="sd">看圖 → 成交</span></span>
+        <span class="arrow">→</span>
+        <span class="step">出貨倉管<span class="sd">含寄海外</span></span>
+        <span class="arrow">→</span>
+        <span class="step">收款<span class="sd">Shopline 月結</span></span>
+        <span class="arrow">→</span>
+        <span class="step">復盤<span class="sd">Vito · Regina</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lead">
+    <div class="card"><div class="role">總經理</div><div class="name">Regina</div><div class="desc">統管全局 · 選品定案 · 全局拍板</div></div>
+    <div class="card"><div class="role">顧問</div><div class="name">Vito</div><div class="desc">年度企劃 · 風格 TA · 復盤 · 傭金 · 制度考核設計 · 主導代理</div></div>
+  </div>
+
+  <div class="sec"><h2>核心營運</h2><div class="rule"></div></div>
+  <div class="dept">
+    <div class="dept-head"><span class="dept-nm">電商部</span><span class="dept-tag">Regina 直接統管</span></div>
+
+    <div class="card t-teal" style="margin-bottom:12px">
+      <div class="pad">
+        <div class="ctitle"><span class="bar"></span><span class="nm">行銷企劃課</span><span class="mut">含 LINE OA</span></div>
+        <div class="subcols">
+          <div>
+            <div class="grp">選品 · campaign</div>
+            <div class="r"><span class="k">選品定案</span><span class="v">Regina</span></div>
+            <div class="r"><span class="k">找貨</span><span class="v">江瑩 · 怡萍 ＊</span> <span class="pill cn">陸</span></div>
+            <div class="r"><span class="k">campaign</span><span class="v">Vito · Regina · 家逸 ＊</span></div>
+          </div>
+          <div>
+            <div class="grp">平台運營 · 上架投廣</div>
+            <div class="r"><span class="k">統管</span><span class="v">Regina</span></div>
+            <div class="r"><span class="k">官網</span><span class="v">家逸</span></div>
+            <div class="r"><span class="k">蝦皮Momo</span><span class="v">JoJo</span></div>
+          </div>
+          <div>
+            <div class="grp">LINE OA</div>
+            <div class="r"><span class="k">策略</span><span class="v">Vito</span></div>
+            <div class="r"><span class="k">委外運營</span><span class="v">代操</span></div>
+            <div class="r"><span class="k">私域客服</span><span class="v">宇綾</span> <span class="pill prog">暫定</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card t-amber">
+        <div class="pad">
+          <div class="ctitle"><span class="bar"></span><span class="nm">內容創意課</span></div>
+          <div class="r"><span class="k">腳本</span><span class="v">Regina</span></div>
+          <div class="r"><span class="k">拍攝</span><span class="v">家逸 · 芋頭 · 怡如 ＊</span></div>
+          <div class="r"><span class="k">剪輯</span><span class="v">健加 · 鴻閔</span></div>
+          <div class="r"><span class="k">美編</span><span class="v">麗君</span></div>
+          <div class="r"><span class="k">課程</span><span class="v">Regina · Vito</span></div>
+          <div class="r"><span class="k">podcast</span><span class="v">Regina · Vito · 家逸 ＊ · 芋頭</span> <span class="pill prog">暫定</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card t-indigo">
+          <div class="pad">
+            <div class="ctitle"><span class="bar"></span><span class="nm">客服運營課</span><span class="mut">平日假日輪班 · 皆銷售</span></div>
+            <div class="r"><span class="k">客服 · 銷售</span><span class="v">尤藝 · 柏境 · 炳昌 · 宇綾 · 秋平 · 曉薇</span></div>
+            <div class="r"><span class="k">報價 · 銷售</span><span class="v">江瑩 · 怡萍</span> <span class="pill cn">陸</span></div>
+            <div class="r"><span class="k">發圖</span><span class="v">佩慈</span></div>
+          </div>
+        </div>
+        <div class="card t-slate" style="margin-top:12px">
+          <div class="pad">
+            <div class="ctitle"><span class="bar"></span><span class="nm">出貨倉管</span></div>
+            <div class="subcols" style="grid-template-columns:repeat(2,1fr)">
+              <div><div class="r"><span class="k">抓貨</span><span class="v">肖貝</span> <span class="pill cn">陸</span></div></div>
+              <div><div class="r"><span class="k">出貨</span><span class="v">茂泉</span> <span class="pill cn">陸</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec"><h2>業務 · 拓展 · 支援</h2><div class="rule"></div></div>
+  <div class="grid3">
+    <div class="card t-amber">
+      <div class="pad">
+        <div class="ctitle"><span class="bar"></span><span class="nm">業務部</span><span class="mut">代理招募</span></div>
+        <div class="r"><span class="k">直播培訓</span><span class="v">Regina · Vito</span></div>
+        <div class="r"><span class="k">助理</span><span class="v">健加 ＊</span></div>
+        <div class="r"><span class="k">招商影片</span><span class="v">芋頭 ＊</span></div>
+      </div>
+    </div>
+
+    <div class="card t-slate dashed">
+      <div class="pad">
+        <div class="ctitle"><span class="bar"></span><span class="nm">海外測試</span><span class="badge test-b">拓展中</span></div>
+        <div class="r"><span class="k">杜拜</span><span class="v">艾斯姆</span> <span class="mut">英文</span></div>
+        <div class="r"><span class="k">泰國</span><span class="v">玲玲</span> <span class="mut">泰文</span></div>
+        <div class="r"><span class="k">馬來西亞</span><span class="v">怡如</span> <span class="mut">中／馬來</span></div>
+        <div class="r" style="margin-top:8px"><span class="mut">各國 1 人 · 在地化素材</span></div>
+      </div>
+    </div>
+
+    <div class="card t-slate">
+      <div class="pad">
+        <div class="ctitle"><span class="bar"></span><span class="nm">財務 · 人資部</span></div>
+        <div class="r"><span class="k">大陸成本</span><span class="v">婉清</span> <span class="pill cn">陸</span></div>
+        <div class="r"><span class="k">台灣會計</span><span class="pill prog">招募中</span> <span class="mut">Benny 支援</span></div>
+        <div class="r"><span class="k">人資</span><span class="v">Benny</span> <span class="mut">儀表板跟進·改善·優化</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec"><h2>KPI 總表</h2><div class="rule"></div></div>
+  <div class="ktable">
+    <div class="kdept">電商部 · 團隊（共扛）</div>
+    <div class="krow"><span class="kp">業績</span><span class="kv" style="color:var(--teal);font-weight:700">MoM 成長 ≥ 20%</span></div>
+    <div class="kdept">電商部 · 行銷企劃課</div>
+    <div class="krow"><span class="kp">選品</span><span class="kv">企劃日期前完工 100%<span class="sep">｜</span>命中率 ≥ 70%</span></div>
+    <div class="krow"><span class="kp">campaign</span><span class="kv">企劃日期前完工（規劃·溝通）100%<span class="sep">｜</span>檔期 ROI ≥ 4</span></div>
+    <div class="krow"><span class="kp">官網運營</span><span class="kv">企劃日期前完工 100%</span></div>
+    <div class="krow"><span class="kp">蝦皮·Momo</span><span class="kv">蝦皮 ROI ≥ 5<span class="sep">｜</span>Momo ROI ≥ 4</span></div>
+    <div class="krow"><span class="kp">LINE OA</span><span class="kv">復購率 8%<span class="sep">｜</span>開封 ≥ 25%<span class="sep">｜</span>私域 1 小時內回覆 100%</span></div>
+
+    <div class="kdept">電商部 · 內容創意課</div>
+    <div class="krow"><span class="kp">腳本拍攝剪輯</span><span class="kv">各 60 支／月</span></div>
+    <div class="krow"><span class="kp">美編</span><span class="kv">每日出圖 50 張</span></div>
+
+    <div class="kdept">電商部 · 客服運營課</div>
+    <div class="krow"><span class="kp">客服 · 銷售</span><span class="kv">月退貨率 ≤ 5%<span class="sep">｜</span>客訴 &lt; 1 件／月<span class="sep">｜</span>優質回覆</span></div>
+    <div class="krow"><span class="kp">報價 · 大陸</span><span class="kv">20 分鐘內回覆 100%<span class="sep">｜</span>2 小時內正確報價 100%</span></div>
+    <div class="krow"><span class="kp">LINE OA 客服</span><span class="kv">失誤 &lt; 1 件／月</span></div>
+    <div class="krow"><span class="kp">社群</span><span class="kv">LINE 社群公開抱怨 0 件／月</span></div>
+    <div class="krow"><span class="kp">發圖</span><span class="kv">300 張／月</span></div>
+
+    <div class="kdept">出貨倉管</div>
+    <div class="krow"><span class="kp">抓貨</span><span class="kv">庫存正確率 ≥ 99%</span></div>
+    <div class="krow"><span class="kp">出貨</span><span class="kv">準時 95%<span class="sep">｜</span>檢查拍照 100%<span class="sep">｜</span>14天·45天到貨 95%<span class="sep">｜</span>失誤 &lt; 2 件／月</span></div>
+
+    <div class="kdept">業務部 · 代理招募</div>
+    <div class="krow"><span class="kp">招募</span><span class="kv">簽 50 份合約<span class="sep">｜</span>10 名主力代理</span></div>
+    <div class="krow"><span class="kp">招商客服</span><span class="kv">2 小時內回覆 100%</span></div>
+    <div class="krow"><span class="kp">培訓·影片</span><span class="kv">直播 ≥ 2 場／月<span class="sep">｜</span>招商片 4 支／月</span></div>
+
+    <div class="kdept">海外測試</div>
+    <div class="krow"><span class="kp">各國</span><span class="kv">第 1 個月 建置 100%<span class="sep">｜</span>第 2 個月 成交 2 單</span></div>
+
+    <div class="kdept">財務 · 人資</div>
+    <div class="krow"><span class="kp">大陸成本</span><span class="kv">月報表 0 逾期 · 0 錯誤</span></div>
+    <div class="krow"><span class="kp">台灣會計</span><span class="kv">每月出 3 表</span></div>
+    <div class="krow"><span class="kp">Benny · 跟進</span><span class="kv">每週追蹤（預防 · 非事後）<span class="sep">｜</span>剪輯每人上片數 · 客服優質回覆 · 時間內出貨 · 蝦皮 · 發片 · 群組上新<span class="sep">｜</span>未達每週提改善計劃 · 三次未達依公司規定</span></div>
+  </div>
+
+  <div class="principle">
+    <b>KPI 定位</b>　每項是這個職位／組的<span class="k">標準產出</span>。達標領薪，超標領獎金。<br>
+    <b>長週期 KPI</b>　每月過半（半個月）做<span class="k">簡討報告</span>——超前或落後——落後就提<span class="k">改善計劃</span>。<br>
+    <b>投流原則</b>　ROI ＝ <span class="k">營收 ÷（廣告費 ＋ 人力）</span>。
+  </div>
+
+  <div class="sec"><h2>落後處置鏈</h2><div class="rule"></div></div>
+  <div class="flow">
+    <p class="lead-note">每週追蹤、預防事故；未達就週提改善計劃，連三次未達由主管一週內依公司規定處置。Benny 負責追蹤與合法執行。</p>
+    <div class="chain">
+      <div class="cnode"><div class="co" style="color:var(--teal)">Benny</div><div class="ct">每週追蹤<br><span style="font-weight:400;color:var(--slate-2);font-size:12.5px">預防 · 非事後</span></div></div>
+      <div class="carrow">→</div>
+      <div class="cnode"><div class="co" style="color:var(--indigo)">當事人</div><div class="ct">未達 → 每週改善計劃</div></div>
+      <div class="carrow">→</div>
+      <div class="cnode trig"><div class="co">觸發</div><div class="ct">連 3 次未達</div></div>
+      <div class="carrow">→</div>
+      <div class="cnode"><div class="co" style="color:var(--amber)">主管</div><div class="ct">依公司規定執行<br><span style="font-weight:400;color:var(--slate-2);font-size:12.5px">HR 處置 · 一週內</span></div></div>
+    </div>
+  </div>
+
+  <div class="sec"><h2>KPI 對營業額權重</h2><div class="rule"></div></div>
+  <div class="flow">
+    <p class="lead-note">工作吃重的熱力圖。</p>
+    <div class="heatgrid">
+      <div class="htile" style="background:rgba(10,186,181,1);color:#fff"><div class="hn">內容 · 短影音</div><div class="hv">22%</div><div class="hp">Regina · 芋頭 · 健加 · 鴻閔</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.80);color:#fff"><div class="hn">官網運營 · 投廣</div><div class="hv">17%</div><div class="hp">Regina · 家逸</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.73);color:#fff"><div class="hn">LINE OA · 私域復購</div><div class="hv">15%</div><div class="hp">Vito · 代操 · 宇綾</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.61);color:#fff"><div class="hn">campaign · 檔期</div><div class="hv">12%</div><div class="hp">Vito · Regina · 家逸 ＊</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.57);color:#fff"><div class="hn">銷售客服</div><div class="hv">11%</div><div class="hp">報價 · 成交</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.45);color:var(--navy)"><div class="hn">業務 · 代理</div><div class="hv">8%</div><div class="hp">Regina · Vito</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.37);color:var(--navy)"><div class="hn">選品</div><div class="hv">6%</div><div class="hp">Regina · 江瑩 · 怡萍</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.34);color:var(--navy)"><div class="hn">美編 · 群組上新</div><div class="hv">5%</div><div class="hp">麗君 · 佩慈</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.22);color:var(--navy)"><div class="hn">蝦皮 · Momo</div><div class="hv">2%</div><div class="hp">JoJo · 新開低基數</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.18);color:var(--navy)"><div class="hn">出貨倉管</div><div class="hv">1%</div><div class="hp">肖貝 · 茂泉</div></div>
+      <div class="htile" style="background:rgba(10,186,181,.18);color:var(--navy)"><div class="hn">海外</div><div class="hv">1%</div><div class="hp">艾斯姆 · 玲玲 · 怡如</div></div>
+      <div class="htile" style="background:#EEF1F5;color:var(--slate-2)"><div class="hn">財務 · 人資</div><div class="hv">—</div><div class="hp">婉清 · Benny · 支援</div></div>
+    </div>
+    <div class="heatlegend"><span>低</span><i></i><span>高</span><span style="margin-left:auto;color:var(--slate-3)">數字為對營收權重 · 加總 100%</span></div>
+  </div>
+
+</div>
+</body>
+</html>
